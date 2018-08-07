@@ -43,6 +43,7 @@ init =
 
 type Msg
     = NoOp
+    | OnMapMoved Map.JsObject
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -51,6 +52,11 @@ update msg model =
         NoOp ->
             ( model, Cmd.none )
 
+        OnMapMoved { lat, lng } ->
+            ( { model | map = Map.modify lat lng model.map }
+            , Cmd.none
+            )
+
 
 
 -- SUBSCRIPTIONS
@@ -58,7 +64,7 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    Port.mapMoved OnMapMoved
 
 
 

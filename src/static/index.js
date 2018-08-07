@@ -14,4 +14,10 @@ app.ports.initializeMap.subscribe(function (pos) {
     L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
     }).addTo(map);
+
+    map.on("moveend", function () {
+        console.log("tx: mapMoved", map.getCenter());
+
+        app.ports.mapMoved.send(map.getCenter());
+    });
 });
