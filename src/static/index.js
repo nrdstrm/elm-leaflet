@@ -15,6 +15,16 @@ app.ports.initializeMap.subscribe(function (pos) {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
     }).addTo(map);
 
+    app.ports.moveMap.subscribe(function (pos) {
+        console.log("rx: moveMap", {
+            pos,
+        });
+
+        map.panTo(new L.LatLng(pos.lat, pos.lng), {
+            animate: true,
+        })
+    });
+
     map.on("moveend", function () {
         console.log("tx: mapMoved", map.getCenter());
 
